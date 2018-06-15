@@ -1,16 +1,21 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const htmlTemplateTag = require('html-template-tag');
+const html = require('html-template-tag');
 const pg = require('pg');
 const wikiRouter = require('./routes/wiki');
 const userRouter = require('./routes/user');
 
 const app = express();
 
-app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static(__dirname + "/public/stylesheets"));
+
+
 app.use('/wiki', wikiRouter);
 app.use('/user', userRouter);
+
 
 const {db} = require('./models');
 
@@ -19,8 +24,8 @@ then(() => {
   console.log('connected to the database');
 })
 
-app.get("/", (req, res, next) => {
-    res.redirect("/wiki");
+app.get('/', (req, res, next) => {
+  res.redirect('/wiki');
 })
 
 const PORT = 3000;
