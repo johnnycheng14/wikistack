@@ -1,11 +1,7 @@
 const Sequelize = require('sequelize');
-const db = new Sequelize('postgres://localhost:5432/wikistack'/* , {
+const db = new Sequelize('postgres://localhost:5432/wikistack', {
     logging: false
-} */ );
-
-// const db = new Sequelize('postgres://localhost:5432/wikistack', {
-//     logging: false
-// });
+});
 
 const Page = db.define('pages', {
   title: {
@@ -40,4 +36,4 @@ const User = db.define('users', {
 });
 
 
-module.exports = {  Page, User  };
+module.exports = {  db, Page, User  };
