@@ -6,7 +6,7 @@ const pg = require('pg');
 
 const app = express();
 
-const { db } = require('./models');
+const models = require('./models');
 
 db.authenticate().
 then(() => {
@@ -14,7 +14,11 @@ then(() => {
 })
 
 const PORT = 3000;
+const init = async () => {
+  await models.db.sync({force: true});
+  app.listen(PORT, () => {
+    console.log(`App listening at port ${PORT}`);
+  });
+};
+init();
 
-app.listen(PORT, () => {
-  console.log(`App listening at port ${PORT}`);
-})
