@@ -8,15 +8,24 @@ const userRouter = require('./routes/user');
 
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public/stylesheets"));
+
+
 app.use('/wiki', wikiRouter);
 app.use('/user', userRouter);
+
 
 const {db} = require('./models');
 
 db.authenticate().
 then(() => {
   console.log('connected to the database');
+})
+
+app.get('/', (req, res, next) => {
+  res.redirect('/wiki');
 })
 
 const PORT = 3000;
